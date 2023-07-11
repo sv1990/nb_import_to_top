@@ -14,6 +14,20 @@ IMPORT_RGX: re.Pattern = re.compile(
 )
 
 
+def try_run_isort(code: str) -> str:
+    try:
+        # pylint:disable-next = import-outside-toplevel
+        from isort import Config
+
+        # pylint:disable-next = import-outside-toplevel
+        from isort.api import sort_code_string
+    except ImportError:
+        return code
+    return sort_code_string(
+        code, config=Config(settings_path=str(Path.cwd().resolve()))
+    )
+
+
 def move_imports_to_top(nb: nbformat.NotebookNode) -> nbformat.NotebookNode:
     nb_copy = deepcopy(nb)
 
@@ -37,10 +51,7 @@ def move_imports_to_top(nb: nbformat.NotebookNode) -> nbformat.NotebookNode:
     nb_copy["cells"] = [cell for cell in nb_copy["cells"] if cell.source is not None]
 
     nb_copy["cells"].insert(
-        0,
-        nbformat.v4.new_code_cell(
-            "\n".join(sorted(all_imports)),  # TODO: apply isort if available
-        ),
+        0, nbformat.v4.new_code_cell(try_run_isort("\n".join(sorted(all_imports))))
     )
 
     return nb_copy
