@@ -6,7 +6,8 @@ import more_itertools
 import nbformat
 
 IMPORT_RGX: re.Pattern = re.compile(
-    r"^(from\s+\w+\s+import\s+(?:\w+|\((?:[^\)]|\n)*\)).*|import\s+.*)", flags=re.M
+    r"^(from\s+\w+(\.\w+)*\s+import\s+(?:\w+|\((?:[^\)]|\n)*\)).*|import\s+.*)",
+    flags=re.M,
 )
 
 
