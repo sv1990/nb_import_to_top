@@ -25,6 +25,10 @@ def try_run_isort(code: str) -> str:
     )
 
 
+def is_import(s: str | None) -> bool:
+    return bool(IMPORT_RGX.match(s)) if s else False
+
+
 def move_imports_to_top(nb: nbformat.NotebookNode) -> nbformat.NotebookNode:
     nb_copy = deepcopy(nb)
 
@@ -33,11 +37,9 @@ def move_imports_to_top(nb: nbformat.NotebookNode) -> nbformat.NotebookNode:
         if cell["cell_type"] != "code":
             continue
         source = cell["source"]
-        code, imports = more_itertools.partition(
-            IMPORT_RGX.match, IMPORT_RGX.split(source)
-        )
+        code, imports = more_itertools.partition(is_import, IMPORT_RGX.split(source))
         all_imports |= set(imports)
-        new_source = "".join(code)
+        new_source = "".join(filter(bool, code))
 
         # Set source to None if it was emptied by moving the imports so that it can be
         # removed later.
