@@ -1,2 +1,17 @@
+[project]
+name = "nbisort"
+version = "0.0.1"
+description = "An import-formatting tool for notebooks"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [tool.isort]
 profile = "black"
