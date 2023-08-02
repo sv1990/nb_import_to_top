@@ -2,10 +2,9 @@ import re
 from copy import deepcopy
 from pathlib import Path
 
+import isort
 import more_itertools
 import nbformat
-from isort import Config
-from isort.api import sort_code_string
 
 IMPORT_RGX: re.Pattern = re.compile(
     r"^(from\s+\w+(\.\w+)*\s+import\s+(?:\w+|\((?:[^\)]|\n)*\)).*|import\s+.*)",
@@ -14,8 +13,8 @@ IMPORT_RGX: re.Pattern = re.compile(
 
 
 def run_isort(code: str) -> str:
-    return sort_code_string(
-        code, config=Config(settings_path=str(Path.cwd().resolve()))
+    return isort.code(
+        code, config=isort.Config(settings_path=str(Path.cwd().resolve()))
     )
 
 
