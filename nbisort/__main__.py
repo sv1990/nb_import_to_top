@@ -2,7 +2,6 @@
 
 import argparse
 from pathlib import Path
-from shutil import copyfile
 
 import nbformat
 
@@ -15,8 +14,6 @@ def format_notebook(notebook: Path) -> None:
 
     with open(notebook) as f:
         nb = nbformat.read(f, as_version=4)
-
-    copyfile(notebook, notebook.with_suffix(f"{notebook.suffix}.bak"))
 
     nb = move_imports_to_top(nb)
 
