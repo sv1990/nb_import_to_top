@@ -15,6 +15,11 @@ from nbisort import is_import, move_imports_to_top
         ("", False),
         ("[x for x in xs]", False),
         ("from os.path import abspath", True),
+        ("from itertools import permutations, combinations", True),
+        ("from module import func, (ClassA, ClassB)", True),
+        ("import my_package.my_module", True),
+        ("import my_package.my_module.my_submodule", True),
+        ("from module import (\n    func1,\n    func2,\n    func3,\n)", True),
     ],
 )
 def test_is_import(code, expected):
