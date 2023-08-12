@@ -9,7 +9,7 @@ import more_itertools
 import nbformat
 
 IMPORT_RGX = re.compile(
-    r"^(from\s+\w+(\.\w+)*\s+import\s+(?:\w+|\((?:[^\)]|\n)*\)).*|import\s+.*)",
+    r"^(from\s+\w+(?:\.\w+)*\s+import\s+(?:\w+|\((?:[^\)]|\n)*\)).*|import\s+.*)",
     flags=re.M,
 )
 
@@ -39,7 +39,7 @@ def move_imports_to_top(nb: nbformat.NotebookNode) -> nbformat.NotebookNode:
         # Set source to None if it was emptied by moving the imports so that it can be
         # removed later.
         nb_copy["cells"][i]["source"] = (
-            new_source if new_source.strip() or not source else None
+            new_source if new_source.strip() or not source.strip() else None
         )
 
     nb_copy["cells"] = [cell for cell in nb_copy["cells"] if cell.source is not None]

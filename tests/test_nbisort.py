@@ -60,13 +60,54 @@ def to_notebook(cells: Iterable[nbformat.NotebookNode]):
                     cell("# Some code here"),
                 ]
             ),
-        )
+        ),
+        (
+            to_notebook(
+                [
+                    cell("import a\n"),
+                    cell("import b\n"),
+                ]
+            ),
+            to_notebook(
+                [
+                    cell("import a\nimport b\n"),
+                ]
+            ),
+        ),
+        (
+            to_notebook(
+                [
+                    cell("import a\n"),
+                    cell("\n\n"),
+                    cell("import b\n"),
+                ]
+            ),
+            to_notebook(
+                [
+                    cell("import a\nimport b\n"),
+                    cell("\n\n"),
+                ]
+            ),
+        ),
+        (
+            to_notebook(
+                [
+                    cell("from mod1 import f1"),
+                    cell("from mod2.submod1 import f2, f3"),
+                ]
+            ),
+            to_notebook(
+                [
+                    cell("from mod1 import f1\nfrom mod2.submod1 import f2, f3\n"),
+                ]
+            ),
+        ),
     ],
 )
 def test_move_imports(nb, expected_nb):
     result_nb = move_imports_to_top(nb)
 
-    for cell1, cell2 in zip(result_nb["cells"], expected_nb["cells"]):
+    for cell1, cell2 in zip(result_nb["cells"], expected_nb["cells"], strict=True):
         cell1.pop("id")
         cell2.pop("id")
         assert cell1 == cell2
