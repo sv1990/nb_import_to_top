@@ -24,7 +24,7 @@ def is_import(s: str | None) -> bool:
     return bool(IMPORT_RGX.match(s)) if s else False
 
 
-def move_imports_to_top(nb: nbformat.NotebookNode) -> nbformat.NotebookNode:
+def nbisort(nb: nbformat.NotebookNode) -> nbformat.NotebookNode:
     nb_copy = deepcopy(nb)
 
     all_imports = set()

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import nbformat
 
-from nbisort import move_imports_to_top
+from nbisort import nbisort
 
 
 def format_notebook(notebook: Path) -> None:
@@ -15,7 +15,7 @@ def format_notebook(notebook: Path) -> None:
     with open(notebook) as f:
         nb = nbformat.read(f, as_version=4)
 
-    nb = move_imports_to_top(nb)
+    nb = nbisort(nb)
 
     with open(notebook, "w") as f:
         nbformat.write(nb, f)

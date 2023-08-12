@@ -3,7 +3,7 @@ from typing import Iterable
 import nbformat
 import pytest
 
-from nbisort import is_import, move_imports_to_top
+from nbisort import is_import, nbisort
 
 
 @pytest.mark.parametrize(
@@ -105,7 +105,7 @@ def to_notebook(cells: Iterable[nbformat.NotebookNode]):
     ],
 )
 def test_move_imports(nb, expected_nb):
-    result_nb = move_imports_to_top(nb)
+    result_nb = nbisort(nb)
 
     for cell1, cell2 in zip(result_nb["cells"], expected_nb["cells"], strict=True):
         cell1.pop("id")
