@@ -2,6 +2,7 @@ from typing import Iterable
 
 import nbformat
 import pytest
+from more_itertools import zip_equal
 
 from nbisort import is_import, nbisort
 
@@ -107,7 +108,7 @@ def to_notebook(cells: Iterable[nbformat.NotebookNode]):
 def test_move_imports(nb, expected_nb):
     result_nb = nbisort(nb)
 
-    for cell1, cell2 in zip(result_nb["cells"], expected_nb["cells"], strict=True):
+    for cell1, cell2 in zip_equal(result_nb["cells"], expected_nb["cells"]):
         cell1.pop("id")
         cell2.pop("id")
         assert cell1 == cell2
