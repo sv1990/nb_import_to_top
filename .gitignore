@@ -1,9 +1,10 @@
-.vscode
-venv
-.mypy_cache
-*.ipynb
 __pycache__
-.pytest_cache
-dist
-*.egg-info
+.coverage
 .DS_STORE
+.mypy_cache
+.pytest_cache
+.vscode
+*.egg-info
+*.ipynb
+dist
+venv

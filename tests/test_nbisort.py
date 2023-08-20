@@ -103,6 +103,21 @@ def to_notebook(cells: Iterable[nbformat.NotebookNode]):
                 ]
             ),
         ),
+        (
+            to_notebook(
+                [
+                    cell("import a\n"),
+                    markdown("import a"),
+                    cell("import b\n"),
+                ]
+            ),
+            to_notebook(
+                [
+                    cell("import a\nimport b\n"),
+                    markdown("import a"),
+                ]
+            ),
+        ),
     ],
 )
 def test_move_imports(nb, expected_nb):
