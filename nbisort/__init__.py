@@ -42,7 +42,9 @@ def nbisort(nb: nbformat.NotebookNode) -> nbformat.NotebookNode:
             new_source if new_source.strip() or not source.strip() else None
         )
 
-    nb_copy["cells"] = [cell for cell in nb_copy["cells"] if cell.source is not None]
+    nb_copy["cells"] = [
+        cell for cell in nb_copy["cells"] if getattr(cell, "source", None) is not None
+    ]
 
     nb_copy["cells"].insert(
         0, nbformat.v4.new_code_cell(run_isort("\n".join(sorted(all_imports))))
