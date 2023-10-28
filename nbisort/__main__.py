@@ -10,7 +10,7 @@ def format_notebook(notebook: Path, verbose: bool = False) -> None:
     if notebook.suffix != ".ipynb":
         return
 
-    with open(notebook) as f:
+    with open(notebook, encoding="utf-8") as f:
         nb = nbformat.read(f, as_version=4)
 
     if verbose:
@@ -18,7 +18,7 @@ def format_notebook(notebook: Path, verbose: bool = False) -> None:
 
     nb = nbisort(nb)
 
-    with open(notebook, "w") as f:
+    with open(notebook, "w", encoding="utf-8") as f:
         nbformat.write(nb, f)
 
 
