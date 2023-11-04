@@ -10,7 +10,7 @@ import nbformat
 
 IMPORT_RGX = re.compile(
     r"^(from\s+\w+(?:\.\w+)*\s+import\s+(?:\w+|\((?:[^\)]|\n)*\)).*|import\s+.*)",
-    flags=re.M,
+    flags=re.MULTILINE,
 )
 
 
