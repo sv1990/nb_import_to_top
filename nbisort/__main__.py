@@ -1,4 +1,5 @@
 import argparse
+from functools import wraps
 from pathlib import Path
 
 import nbformat
@@ -6,15 +7,21 @@ import nbformat
 from nbisort import nbisort
 
 
+@wraps(print)
+def _print_if_verbose(*args, verbose: bool = False, **kwargs):
+    if verbose:
+        print(*args, **kwargs)
+
+
 def format_notebook(notebook: Path, verbose: bool = False) -> None:
     if notebook.suffix != ".ipynb":
+        _print_if_verbose(f"Skipping {notebook}", verbose=verbose)
         return
 
     with open(notebook, encoding="utf-8") as f:
         nb = nbformat.read(f, as_version=4)
 
-    if verbose:
-        print(f"Formatting {notebook}...")
+    _print_if_verbose(f"Formatting {notebook}...", verbose=verbose)
 
     nb = nbisort(nb)
 
