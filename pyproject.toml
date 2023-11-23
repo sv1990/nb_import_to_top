@@ -2,12 +2,13 @@
 name = "nbisort"
 version = "0.0.1"
 description = "An import-formatting tool for notebooks"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dynamic = ["dependencies", "scripts"]
 
 [build-system]
 requires = ["setuptools>=61.0"]
