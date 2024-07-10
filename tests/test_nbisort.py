@@ -4,7 +4,7 @@ import nbformat
 import pytest
 from more_itertools import zip_equal
 
-from nbisort import is_import, nbisort
+from nbisort import is_toplevel_import, nbisort
 
 
 @pytest.mark.parametrize(
@@ -23,8 +23,8 @@ from nbisort import is_import, nbisort
         ("from module import (\n    func1,\n    func2,\n    func3,\n)", True),
     ],
 )
-def test_is_import(code, expected):
-    assert is_import(code) == expected
+def test_is_toplevel_import(code, expected):
+    assert is_toplevel_import(code) == expected
 
 
 def cell(text: str) -> nbformat.NotebookNode:

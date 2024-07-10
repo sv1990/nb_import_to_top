@@ -8,7 +8,7 @@ import isort
 import more_itertools
 import nbformat
 
-IMPORT_RGX = re.compile(
+TOPLEVEL_IMPORT_RGX = re.compile(
     r"^(from\s+\w+(?:\.\w+)*\s+import\s+(?:\w+|\((?:[^\)]|\n)*\)).*|import\s+.*)",
     flags=re.MULTILINE,
 )
@@ -20,8 +20,8 @@ def run_isort(code: str) -> str:
     )
 
 
-def is_import(s: str | None) -> bool:
-    return bool(IMPORT_RGX.match(s)) if s else False
+def is_toplevel_import(s: str | None) -> bool:
+    return bool(TOPLEVEL_IMPORT_RGX.match(s)) if s else False
 
 
 def nbisort(nb: nbformat.NotebookNode) -> nbformat.NotebookNode:
@@ -32,7 +32,9 @@ def nbisort(nb: nbformat.NotebookNode) -> nbformat.NotebookNode:
         if cell["cell_type"] != "code":
             continue
         source = cell["source"]
-        code, imports = more_itertools.partition(is_import, IMPORT_RGX.split(source))
+        code, imports = more_itertools.partition(
+            is_toplevel_import, TOPLEVEL_IMPORT_RGX.split(source)
+        )
         all_imports |= set(imports)
         new_source = "".join(filter(bool, code))
 
